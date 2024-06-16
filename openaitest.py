@@ -17,7 +17,7 @@ def key_points_extraction(transcription):
             {"role": "system","content": """
              Based on the following indonesian meeting minutes, I want to know is anything could be done to meet them again or close a deal.
              So, from these meeting minutes give me:
-             1) The subjects that were disqcussed in the meeting(very briefly)
+             1) The subjects that were discussed in the meeting(very briefly)
              2) The list of questions that have been asked during the meeting
              3) The decisions that were taken in this meeting
              4) Next actions to undertake related to this meeting subjects, questions,... (next meeting, something to do, information to send, etc...)

@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Bot",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "bot.py",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "ID Meeting",
             "type": "debugpy",
             "request": "launch",
