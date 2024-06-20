@@ -8,7 +8,7 @@
             "name": "Bot",
             "type": "debugpy",
             "request": "launch",
-            "program": "bot.py",
+            "program": "botMTProto.py",
             "console": "integratedTerminal"
         },
         {

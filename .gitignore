@@ -3,10 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 .DS_Store
-*.mp3
-*.mp4
+media/*
 *.txt
 *.db
+*.session*
 
 # C extensions
 *.so
