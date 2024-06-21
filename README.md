@@ -56,6 +56,19 @@ or
 ```bash
 python bot.py
 ```
+## Telegram
+
+### How to Find your Telegram User ID
+
+Type “userinfobot” in your contacts search bar and “/start.”
+
+### Create a Bot 
+
+Go to https://telegram.me/BotFather
+
+### APP ID etc..
+
+Go here: https://my.telegram.org/apps
 
 ## Code Explanation
 
