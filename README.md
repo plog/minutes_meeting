@@ -10,12 +10,6 @@ This repository contains a Telegram bot designed to process video (MP4) and audi
 - Provides a list of previous meetings for each user.
 - Restricts usage to a list of allowed users.
 
-## Usage
-
-```
-pymon botMTProto.py
-```
-
 ## Setup
 
 ### Prerequisites
