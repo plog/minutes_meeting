@@ -16,7 +16,7 @@ load_dotenv(override=True)
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger("meeting_minutes")
 
-DEBUG           = os.getenv('DEBUG')
+DEBUG           = os.getenv('DEBUG', 'False').lower() in ('true', '1', 't')
 API_ID          = os.getenv('API_ID')
 API_HASH        = os.getenv('API_HASH')
 BOT_TOKEN       = os.getenv('BOT_TOKEN')
@@ -73,11 +73,14 @@ async def handle_video(event):
             await event.respond('Video received. Processing...')
             ffmpeg.input(video_path).output(mp3, vn=None, af="silenceremove=start_periods=1:start_silence=0.5:start_threshold=-30dB,atempo=1.3").run(overwrite_output=True)
             # Summarize meeting and save transcription
+            print(DEBUG)
             if DEBUG:
+                print("----------------- DEBUG -------------------------")
                 key_points = "\n".join([lorem.paragraph() for _ in range(3)])
                 full_transcription = "\n".join([lorem.paragraph() for _ in range(20)])
             else:
                 key_points, full_transcription = summarize_meeting(mp3, user_id)
+
             save_transcription(user_id, full_transcription, key_points)
             await event.respond(key_points)
 
@@ -141,6 +144,7 @@ async def view_item(event):
 
 def main() -> None:
     init_db()
+    print(DEBUG)
     telegramcli.run_until_disconnected()
 
 if __name__ == '__main__':
