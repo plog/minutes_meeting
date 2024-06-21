@@ -1,7 +1,6 @@
 # Meeting Minutes Bot
 
-This repository contains a Telegram bot designed to process video (MP4) and audio (MP3) files to create meeting summaries and transcriptions. The bot leverages the `Telethon` library for Telegram API interactions and `ffmpeg` for media processing.
-
+This repository contains a Telegram bot designed to process video (MP4) and audio (MP3) files to create meeting summaries and transcriptions. The bot leverages the [Telethon](https://docs.telethon.dev/) library for Telegram API interactions, [ffmpeg](https://ffmpeg.org/) for media processing, and OpenAI’s Whisper and GPT-4o for generating transcriptions and summaries.
 ## Features
 
 - Accepts video (MP4) and audio (MP3) files.
