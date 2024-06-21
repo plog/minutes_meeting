@@ -6,9 +6,11 @@ from telethon.tl.types import DocumentAttributeAudio, DocumentAttributeVideo
 from bot_database import *
 
 import os
+import ffmpeg
 import time
 import uuid
 import logging
+import lorem
 
 load_dotenv(override=True)
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -16,6 +18,7 @@ logger = logging.getLogger("meeting_minutes")
 
 openaicli = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 MEDIA_DIR       = os.getenv('MEDIA_DIR', './media')
+DEBUG           = os.getenv('DEBUG', 'False').lower() in ('true', '1', 't')
 
 def get_allowed_users():
     load_dotenv(override=True)
@@ -117,3 +120,35 @@ async def download_file(media, media_type, telegramcli):
     await telegramcli.download_media(media, file_name)
     logger.info(f"{media_type.capitalize()} file saved to: {file_name}")
     return file_name, None
+
+async def process_media(event, media, media_type, telegramcli):
+    user_id = event.sender_id
+    if user_id not in get_allowed_users():
+        await event.respond("You are not allowed to use this bot.")
+        return
+    
+    await event.respond('Please wait, it can take a moment...')
+    add_user(user_id)
+    
+    media_path, error = await download_file(media, media_type, telegramcli)
+    if error:
+        await event.respond(error)
+        return
+
+    input_file = os.path.basename(media_path)
+    mp3 = f"{MEDIA_DIR}/{uuid.uuid4()}.mp3"
+    
+    if media_path:
+        await event.respond(f'{media_type.capitalize()} received. Processing...')
+        ffmpeg.input(media_path).output(mp3, vn=None, af="silenceremove=start_periods=1:start_silence=0.5:start_threshold=-30dB,atempo=1.3").run(overwrite_output=True)
+        if DEBUG:
+            key_points = "\n".join([lorem.paragraph() for _ in range(5)])
+            full_transcription = "\n".join([lorem.paragraph() for _ in range(20)])
+        else:
+            key_points, full_transcription = summarize_meeting(mp3, user_id)
+        save_transcription(user_id, full_transcription, key_points)
+        await event.respond(key_points)
+        os.remove(media_path)
+        os.remove(mp3)
+    else:
+        await event.respond(f'Failed to download the {media_type} after multiple attempts.')
