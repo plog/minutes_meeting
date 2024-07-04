@@ -14,7 +14,7 @@ services:
     environment:
       VIRTUAL_HOST: ${LETSENCRYPT_HOST}
       LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
-      LETSENCRYPT_EMAIL: plog@plog.net
+      LETSENCRYPT_EMAIL: ${EMAIL}
       VIRTUAL_PORT: ${FLASK_PORT}
       FLASK_HOST: 0.0.0.0
       FLASK_PORT: ${FLASK_PORT}
