@@ -1,0 +1,22 @@
+networks:
+  default:
+    external: true
+    name: scoobydoo
+
+services:
+  unprisearch:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: 'plog/minutes_meeting:0.1'
+    restart: unless-stopped
+    container_name: minutes_meeting
+    environment:
+      VIRTUAL_HOST: ${LETSENCRYPT_HOST}
+      LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
+      LETSENCRYPT_EMAIL: plog@plog.net
+      VIRTUAL_PORT: ${FLASK_PORT}
+      FLASK_HOST: 0.0.0.0
+      FLASK_PORT: ${FLASK_PORT}
+    networks:
+      - default
